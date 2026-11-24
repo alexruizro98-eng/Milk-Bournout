@@ -1,20 +1,15 @@
-using System.IO.Enumeration;
 using UnityEngine;
-[CreateAssetMenu(fileName = "NuevaCarriola", menuName = "juego/Carriola Stats")]
 
-
+[CreateAssetMenu(fileName = "Carriola_Nueva", menuName = "Juego / Carriola Stats")]
 public class StrollerStats : ScriptableObject
 {
-    [Header("Motor")]
-    public float velocidadMax = 20f;
-    public float aceleracion = 10f;
-    public float brake = 15f;
+    [Header("Movimiento")]
+    public float velocidadMaxima = 22f;
+    public float aceleracion = 12f;
+    public float frenado = 18f;
+    public float velocidadMaximaReversa = 8f;
 
-
-    [Header("Giro")]
-    public float velocidadGiro = 80f;
-    public float agarre = 0.9f; // 1= no derrapa, 0 = derrapa mucho
-
-    [Header("Bonus por baile")]
-    public float bonusBaile = 5f;
+    [Header("Giro / Derrape")]
+    public float velocidadGiro = 170f;
+    public float multiplicadorDerrape = 2.3f;
 }

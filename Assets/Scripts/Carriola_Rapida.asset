@@ -15,6 +15,6 @@ MonoBehaviour:
   velocidadMax: 20
   aceleracion: 10
   brake: 15
-  velocidadGiro: 80
+  velocidadGiro: 120
   agarre: 0.9
   bonusBaile: 5
