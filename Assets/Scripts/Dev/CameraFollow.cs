@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SeguirStroller : MonoBehaviour
+public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform stroller;
     [SerializeField] private float distanciaAtras = 8f;
