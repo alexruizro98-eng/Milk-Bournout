@@ -1,18 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class SeguirStroller : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public GameObject Stroller;
-    [SerializeField] private Vector3 offset = new Vector3(0.61f, 2.02f, -2.68f);
+    [SerializeField] private Transform stroller;
+    [SerializeField] private float distanciaAtras = 8f;
+    [SerializeField] private float altura = 5f;
+    [SerializeField] private float suavidad = 5f;
 
-    // Update is called once per frame
+    private float yawSuavizado;
+    private Vector3 velocidad;
 
-
-    void LateUpdate()
+    private void Start()
     {
-        transform.position = Stroller.transform.position + offset;
+        if (stroller != null)
+        {
+            yawSuavizado = stroller.eulerAngles.y;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (stroller == null) return;
+
+        
+        yawSuavizado = Mathf.LerpAngle(yawSuavizado, stroller.eulerAngles.y, suavidad * Time.deltaTime);
+
+        Quaternion giroSoloY = Quaternion.Euler(0, yawSuavizado, 0);
+
+        Vector3 posicionDeseada = stroller.position - (giroSoloY * Vector3.forward * distanciaAtras) + Vector3.up * altura;
+
+        transform.position = Vector3.SmoothDamp(transform.position, posicionDeseada, ref velocidad, 1f / suavidad);
+
+       
+        transform.LookAt(stroller.position + Vector3.up * 1f, Vector3.up);
+
     }
 }
