@@ -23,6 +23,10 @@ public class StrollerController : MonoBehaviour
     bool prevJumpHeld;
     bool drifting;
     float driftDirection;
+    bool turboRequested;
+    bool prevTurboHeld;
+    float turboTimer;
+    float turboCooldownTimer;
 
     void Awake()
     {
@@ -37,6 +41,10 @@ public class StrollerController : MonoBehaviour
         bool jumpHeld = input.Jump;
         if (jumpHeld && !prevJumpHeld) jumpRequested = true;
         prevJumpHeld = jumpHeld;
+
+        bool turboHeld = input.Turbo;
+        if (turboHeld && !prevTurboHeld) turboRequested = true;
+        prevTurboHeld = turboHeld;
     }
 
     void FixedUpdate()
@@ -47,8 +55,9 @@ public class StrollerController : MonoBehaviour
                                    groundMask, QueryTriggerInteraction.Ignore);
 
         UpdateDrift();
+        UpdateTurbo(dt);
 
-        Vector3 velocity = rb.linearVelocity;
+        Vector3 velocity = rb.linearVelocity; // Unity 2022 o anterior: rb.velocity
 
         if (grounded)
             velocity = GroundMovement(velocity, dt);
@@ -70,18 +79,24 @@ public class StrollerController : MonoBehaviour
         float lateralSpeed = Vector3.Dot(velocity, transform.right);
 
         float throttle = input.Throttle;
+        bool turbo = turboTimer > 0f && throttle >= 0f;
+        float maxForward = stats.maxForwardSpeed * (turbo ? stats.turboMultiplier : 1f);
+
         float target = throttle >= 0f
-            ? throttle * stats.maxForwardSpeed
+            ? throttle * maxForward
             : throttle * stats.maxReverseSpeed;
+        if (turbo) target = maxForward; // el turbo empuja aunque no aceleres
 
         float rate;
-        if (Mathf.Approximately(throttle, 0f))
+        if (turbo)
+            rate = stats.turboAcceleration;
+        else if (Mathf.Approximately(throttle, 0f))
             rate = stats.coastDeceleration;
         else if (Mathf.Abs(forwardSpeed) > 0.1f && Mathf.Sign(throttle) != Mathf.Sign(forwardSpeed))
             rate = stats.brakeDeceleration;
         else
             rate = stats.acceleration * stats.accelerationCurve.Evaluate(
-                Mathf.Clamp01(Mathf.Abs(forwardSpeed) / stats.maxForwardSpeed));
+                Mathf.Clamp01(Mathf.Abs(forwardSpeed) / maxForward));
 
         forwardSpeed = Mathf.MoveTowards(forwardSpeed, target, rate * dt);
 
@@ -109,6 +124,19 @@ public class StrollerController : MonoBehaviour
         {
             drifting = false;
         }
+    }
+
+    void UpdateTurbo(float dt)
+    {
+        turboTimer -= dt;
+        turboCooldownTimer -= dt;
+
+        if (turboRequested && turboCooldownTimer <= 0f)
+        {
+            turboTimer = stats.turboDuration;
+            turboCooldownTimer = stats.turboCooldown;
+        }
+        turboRequested = false;
     }
 
     void Steer()

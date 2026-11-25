@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour, IStrollerInput
     public float Throttle { get; private set; }
     public bool Jump { get; private set; }
     public bool Drift { get; private set; }
+    public bool Turbo { get; private set; }
 
     void Update()
     {
@@ -33,6 +34,7 @@ public class PlayerInput : MonoBehaviour, IStrollerInput
 
         Jump = kb.spaceKey.isPressed;
         Drift = kb.leftShiftKey.isPressed || kb.rightShiftKey.isPressed;
+        Turbo = kb.qKey.isPressed;
     }
 
     void OnDisable()
@@ -41,6 +43,7 @@ public class PlayerInput : MonoBehaviour, IStrollerInput
         Throttle = 0f;
         Jump = false;
         Drift = false;
+        Turbo = false;
     }
 
     static float Axis(bool negative, bool positive)

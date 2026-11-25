@@ -46,4 +46,14 @@ public class StrollerStats : ScriptableObject
     public float jumpVelocity = 9f;
     [Tooltip("Gravedad extra en el aire (1 = normal). Más alto = salto más seco y menos flotante.")]
     public float gravityMultiplier = 2f;
+
+    [Header("Turbo (tecla Q)")]
+    [Tooltip("Multiplica la velocidad máxima mientras dura el turbo.")]
+    public float turboMultiplier = 1.5f;
+    [Tooltip("Segundos que dura el turbo.")]
+    public float turboDuration = 1f;
+    [Tooltip("Segundos de espera entre un turbo y el siguiente (cuenta desde que se activa).")]
+    public float turboCooldown = 3f;
+    [Tooltip("Aceleración mientras dura el turbo (más alta = patada más fuerte).")]
+    public float turboAcceleration = 40f;
 }

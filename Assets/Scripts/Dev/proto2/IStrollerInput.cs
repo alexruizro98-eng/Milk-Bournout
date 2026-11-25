@@ -14,4 +14,7 @@ public interface IStrollerInput
 
     //true mientras el botón de derrape está apretado.
     bool Drift { get; }
+
+    //true mientras el botón de turbo está apretado.
+    bool Turbo { get; }
 }
