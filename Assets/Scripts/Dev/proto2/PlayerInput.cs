@@ -1,81 +1,50 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-///   Mover: W/S + A/D
-///   Salto: Espacio
-///   Derrape: Shift
+/// Entrada del jugador solo con teclado:
+///   W / ? = adelante     S / ? = reversa
+///   A / ? = izquierda    D / ? = derecha
+///   Espacio = salto      Shift = derrape
 
 public class PlayerInput : MonoBehaviour, IStrollerInput
 {
-    InputAction throttleAction;
-    InputAction steerAction;
-    InputAction jumpAction;
-    InputAction driftAction;
-
     public float Steer { get; private set; }
     public float Throttle { get; private set; }
-    public bool Jump => jumpAction != null && jumpAction.IsPressed();
-    public bool Drift => driftAction != null && driftAction.IsPressed();
+    public bool Jump { get; private set; }
+    public bool Drift { get; private set; }
 
-    void Awake()
+    void Update()
     {
-        throttleAction = new InputAction("Throttle", InputActionType.Value);
-        throttleAction.AddCompositeBinding("1DAxis")
-            .With("Negative", "<Keyboard>/s")
-            .With("Positive", "<Keyboard>/w");
-        throttleAction.AddCompositeBinding("1DAxis")
-            .With("Negative", "<Keyboard>/downArrow")
-            .With("Positive", "<Keyboard>/upArrow");
-        
+        Keyboard kb = Keyboard.current;
+        if (kb == null)
+        {
+            Steer = 0f;
+            Throttle = 0f;
+            Jump = false;
+            Drift = false;
+            return;
+        }
 
-        steerAction = new InputAction("Steer", InputActionType.Value);
-        steerAction.AddCompositeBinding("1DAxis")
-            .With("Negative", "<Keyboard>/a")
-            .With("Positive", "<Keyboard>/d");
-        steerAction.AddCompositeBinding("1DAxis")
-            .With("Negative", "<Keyboard>/leftArrow")
-            .With("Positive", "<Keyboard>/rightArrow");
-        
+        // El avance (W/S) y el giro (A/D) 
+        Throttle = Axis(kb.sKey.isPressed || kb.downArrowKey.isPressed,
+                        kb.wKey.isPressed || kb.upArrowKey.isPressed);
+        Steer = Axis(kb.aKey.isPressed || kb.leftArrowKey.isPressed,
+                     kb.dKey.isPressed || kb.rightArrowKey.isPressed);
 
-        jumpAction = new InputAction("Jump", InputActionType.Button);
-        jumpAction.AddBinding("<Keyboard>/space");
-       
-
-        driftAction = new InputAction("Drift", InputActionType.Button);
-        driftAction.AddBinding("<Keyboard>/leftShift");
-        driftAction.AddBinding("<Keyboard>/rightShift");
-       
-    }
-
-    void OnEnable()
-    {
-        throttleAction.Enable();
-        steerAction.Enable();
-        jumpAction.Enable();
-        driftAction.Enable();
+        Jump = kb.spaceKey.isPressed;
+        Drift = kb.leftShiftKey.isPressed || kb.rightShiftKey.isPressed;
     }
 
     void OnDisable()
     {
-        throttleAction.Disable();
-        steerAction.Disable();
-        jumpAction.Disable();
-        driftAction.Disable();
-        Throttle = 0f;
         Steer = 0f;
+        Throttle = 0f;
+        Jump = false;
+        Drift = false;
     }
 
-    void Update()
+    static float Axis(bool negative, bool positive)
     {
-        Throttle = Mathf.Clamp(throttleAction.ReadValue<float>(), -1f, 1f);
-        Steer = Mathf.Clamp(steerAction.ReadValue<float>(), -1f, 1f);
-    }
-
-    void OnDestroy()
-    {
-        throttleAction.Dispose();
-        steerAction.Dispose();
-        jumpAction.Dispose();
-        driftAction.Dispose();
+        return (positive ? 1f : 0f) - (negative ? 1f : 0f);
     }
 }

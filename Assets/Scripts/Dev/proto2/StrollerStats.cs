@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Valores de manejo de una carriola. 
+
 [CreateAssetMenu(fileName = "StrollerStats", menuName = "Stroller/Stats")]
 public class StrollerStats : ScriptableObject
 {
