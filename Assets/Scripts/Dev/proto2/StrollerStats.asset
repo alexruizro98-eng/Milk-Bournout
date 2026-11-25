@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4814c7880a1d4204fa16f45961952d3a, type: 3}
-  m_Name: Carriola_Rapida
+  m_Script: {fileID: 11500000, guid: 611e438ed5241b6428a0def999c30e8a, type: 3}
+  m_Name: StrollerStats
   m_EditorClassIdentifier: Assembly-CSharp::StrollerStats
-  velocidadMax: 20
-  aceleracion: 10
-  brake: 15
-  velocidadGiro: 120
-  agarre: 0.9
-  bonusBaile: 5
+  maxForwardSpeed: 18
+  maxReverseSpeed: 6
+  acceleration: 14
+  brakeDeceleration: 28
+  coastDeceleration: 6
+  turnSpeed: 110
+  fullTurnSpeed: 6
+  lateralGrip: 10
