@@ -14,11 +14,11 @@ public sealed class CameraFollow : MonoBehaviour
     [Tooltip("Height above the stroller used as the camera look target.")]
     [SerializeField] private float targetHeight = 2.2f;
     [Tooltip("How far ahead of the stroller the camera looks, in world units.")]
-    [SerializeField, Min(0f)] private float lookAhead = 30f;
+    [SerializeField, Min(0f)] private float lookAhead = 12f;
 
     [Header("Follow smoothing")]
-    [SerializeField, Min(0f)] private float positionSmooth = 4.5f;
-    [SerializeField, Min(0f)] private float rotationSmooth = 4.5f;
+    [SerializeField, Min(0f)] private float positionSmooth = 6f;
+    [SerializeField, Min(0f)] private float rotationSmooth = 10f;
 
     [Header("Camera lens")]
     [SerializeField, Range(1f, 179f)] private float fieldOfView = 62f;

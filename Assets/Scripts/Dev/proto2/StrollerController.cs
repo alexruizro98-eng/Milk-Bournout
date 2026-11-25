@@ -1,9 +1,7 @@
 using UnityEngine;
 
+// Carriola arcade: adelante, atrás, giro, aceleración con curva, derrape y salto.
 
-/// Carriola arcade: adelante, atrás, giro, aceleración con curva, derrape y salto.
-/// Lee un IStrollerInput y los valores de un StrollerStats.
-/// 
 [RequireComponent(typeof(Rigidbody))]
 public class StrollerController : MonoBehaviour
 {
@@ -27,6 +25,19 @@ public class StrollerController : MonoBehaviour
     bool prevTurboHeld;
     float turboTimer;
     float turboCooldownTimer;
+    float turboAccessTimer;
+
+    //true mientras el jugador puede usar el turbo (recogió el item y no se acabó el tiempo).
+    public bool HasTurboAccess => turboAccessTimer > 0f;
+
+    /// Segundos restantes de permiso de turbo. Útil para el HUD.
+    public float TurboAccessRemaining => Mathf.Max(0f, turboAccessTimer);
+
+    //Lo llama el item: habilita la tecla de turbo durante turboAccessDuration segundos.
+    public void GrantTurbo()
+    {
+        turboAccessTimer = stats.turboAccessDuration;
+    }
 
     void Awake()
     {
@@ -57,7 +68,7 @@ public class StrollerController : MonoBehaviour
         UpdateDrift();
         UpdateTurbo(dt);
 
-        Vector3 velocity = rb.linearVelocity; // Unity 2022 o anterior: rb.velocity
+        Vector3 velocity = rb.linearVelocity;
 
         if (grounded)
             velocity = GroundMovement(velocity, dt);
@@ -130,8 +141,10 @@ public class StrollerController : MonoBehaviour
     {
         turboTimer -= dt;
         turboCooldownTimer -= dt;
+        turboAccessTimer -= dt;
 
-        if (turboRequested && turboCooldownTimer <= 0f)
+        // Q solo funciona si el jugador tiene el permiso del item y ya pasó la espera entre turbos.
+        if (turboRequested && HasTurboAccess && turboCooldownTimer <= 0f)
         {
             turboTimer = stats.turboDuration;
             turboCooldownTimer = stats.turboCooldown;

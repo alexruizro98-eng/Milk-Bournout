@@ -50,9 +50,11 @@ public class StrollerStats : ScriptableObject
     [Header("Turbo (tecla Q)")]
     [Tooltip("Multiplica la velocidad máxima mientras dura el turbo.")]
     public float turboMultiplier = 1.5f;
-    [Tooltip("Segundos que dura el turbo.")]
+    [Tooltip("Segundos que puedes usar la tecla Q después de recoger el item. Al acabar, el turbo se desactiva hasta recoger otro.")]
+    public float turboAccessDuration = 10f;
+    [Tooltip("Segundos que dura cada turbo.")]
     public float turboDuration = 1f;
-    [Tooltip("Segundos de espera entre un turbo y el siguiente (cuenta desde que se activa).")]
+    [Tooltip("Segundos de espera entre un turbo y el siguiente dentro del tiempo de uso (0 = sin espera).")]
     public float turboCooldown = 3f;
     [Tooltip("Aceleración mientras dura el turbo (más alta = patada más fuerte).")]
     public float turboAcceleration = 40f;
