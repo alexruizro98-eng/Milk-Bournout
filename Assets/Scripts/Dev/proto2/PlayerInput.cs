@@ -1,18 +1,21 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Lee el teclado (WASD / flechas) y el mando, y lo expone como IStrollerInput.
-/// Requiere el paquete "Input System" (Window > Package Manager).
-/// Las acciones se crean por código: no necesitas un asset de Input Actions.
-/// </summary>
+///   Mover: W/S + A/D
+///   Salto: Espacio
+///   Derrape: Shift
+
 public class PlayerInput : MonoBehaviour, IStrollerInput
 {
     InputAction throttleAction;
     InputAction steerAction;
+    InputAction jumpAction;
+    InputAction driftAction;
 
     public float Steer { get; private set; }
     public float Throttle { get; private set; }
+    public bool Jump => jumpAction != null && jumpAction.IsPressed();
+    public bool Drift => driftAction != null && driftAction.IsPressed();
 
     void Awake()
     {
@@ -23,7 +26,7 @@ public class PlayerInput : MonoBehaviour, IStrollerInput
         throttleAction.AddCompositeBinding("1DAxis")
             .With("Negative", "<Keyboard>/downArrow")
             .With("Positive", "<Keyboard>/upArrow");
-        throttleAction.AddBinding("<Gamepad>/leftStick/y");
+        
 
         steerAction = new InputAction("Steer", InputActionType.Value);
         steerAction.AddCompositeBinding("1DAxis")
@@ -32,19 +35,32 @@ public class PlayerInput : MonoBehaviour, IStrollerInput
         steerAction.AddCompositeBinding("1DAxis")
             .With("Negative", "<Keyboard>/leftArrow")
             .With("Positive", "<Keyboard>/rightArrow");
-        steerAction.AddBinding("<Gamepad>/leftStick/x");
+        
+
+        jumpAction = new InputAction("Jump", InputActionType.Button);
+        jumpAction.AddBinding("<Keyboard>/space");
+       
+
+        driftAction = new InputAction("Drift", InputActionType.Button);
+        driftAction.AddBinding("<Keyboard>/leftShift");
+        driftAction.AddBinding("<Keyboard>/rightShift");
+       
     }
 
     void OnEnable()
     {
         throttleAction.Enable();
         steerAction.Enable();
+        jumpAction.Enable();
+        driftAction.Enable();
     }
 
     void OnDisable()
     {
         throttleAction.Disable();
         steerAction.Disable();
+        jumpAction.Disable();
+        driftAction.Disable();
         Throttle = 0f;
         Steer = 0f;
     }
@@ -59,5 +75,7 @@ public class PlayerInput : MonoBehaviour, IStrollerInput
     {
         throttleAction.Dispose();
         steerAction.Dispose();
+        jumpAction.Dispose();
+        driftAction.Dispose();
     }
 }
