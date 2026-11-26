@@ -39,6 +39,15 @@ public class StrollerController : MonoBehaviour
         turboAccessTimer = stats.turboAccessDuration;
     }
 
+    public void ResetMotion()
+    {
+        forwardSpeed = 0f;
+        drifting = false;
+        turboTimer = 0f;
+        jumpRequested = false;
+    }
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -96,7 +105,7 @@ public class StrollerController : MonoBehaviour
         float target = throttle >= 0f
             ? throttle * maxForward
             : throttle * stats.maxReverseSpeed;
-        if (turbo) target = maxForward; // el turbo empuja aunque no aceleres
+        if (turbo) target = maxForward; // el turbo empuja aunque no acelere
 
         float rate;
         if (turbo)

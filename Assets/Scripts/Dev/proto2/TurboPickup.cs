@@ -1,14 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Item que habilita el turbo (tecla Q) al pasar por encima.
-/// Ponlo en un objeto con un Collider; se marca como Trigger automáticamente.
-/// </summary>
+
+// Item que habilita el turbo (tecla Q) al pasar por encima.
+
 [RequireComponent(typeof(Collider))]
 public class TurboPickup : MonoBehaviour
 {
-    [Tooltip("Segundos hasta que el item reaparece. 0 = desaparece para siempre.")]
+    [Tooltip("Segundos hasta que el item reaparece.")]
     [SerializeField] float respawnTime = 8f;
 
     Collider trigger;
