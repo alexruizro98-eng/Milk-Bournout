@@ -436,6 +436,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
+    - target: {fileID: 4825223974614526600, guid: ee1c03d7fdcd0fa44a13422c9a640647, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5137054254568235661, guid: ee1c03d7fdcd0fa44a13422c9a640647, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.274129
@@ -2692,11 +2696,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8592796119332524704, guid: c295fa49f9e6e43979bfa67f6283bafd, type: 3}
   m_PrefabInstance: {fileID: 738990706}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1805529165 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5137054254568235661, guid: ee1c03d7fdcd0fa44a13422c9a640647, type: 3}
-  m_PrefabInstance: {fileID: 225761759}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1811277753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3229,7 +3228,7 @@ PrefabInstance:
     - target: {fileID: 5462018201987875976, guid: be0e836d4fae5fc4fa6cd9404300cf83, type: 3}
       propertyPath: stroller
       value: 
-      objectReference: {fileID: 1805529165}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

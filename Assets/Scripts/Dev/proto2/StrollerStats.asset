@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611e438ed5241b6428a0def999c30e8a, type: 3}
   m_Name: StrollerStats
   m_EditorClassIdentifier: Assembly-CSharp::StrollerStats
-  maxForwardSpeed: 40
+  maxForwardSpeed: 23.5
   maxReverseSpeed: 20
   acceleration: 14
   accelerationCurve:
