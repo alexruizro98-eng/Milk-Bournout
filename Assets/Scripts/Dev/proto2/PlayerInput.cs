@@ -1,10 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// Entrada del jugador solo con teclado:
-///   W / ? = adelante     S / ? = reversa
-///   A / ? = izquierda    D / ? = derecha
-///   Espacio = salto      Shift = derrape
+/// Entrada del jugador
+///   W / ↑ = adelante     S / ↓ = reversa
+///   A / ← = izquierda    D / → = derecha
+///   Espacio = salto      Shift = derrape      Q = turbo      R = reaparecer
 
 public class PlayerInput : MonoBehaviour, IStrollerInput
 {
@@ -13,20 +13,19 @@ public class PlayerInput : MonoBehaviour, IStrollerInput
     public bool Jump { get; private set; }
     public bool Drift { get; private set; }
     public bool Turbo { get; private set; }
+    public bool Respawn { get; private set; }
 
     void Update()
     {
         Keyboard kb = Keyboard.current;
         if (kb == null)
         {
-            Steer = 0f;
-            Throttle = 0f;
-            Jump = false;
-            Drift = false;
+            Clear();
             return;
         }
 
-        // El avance (W/S) y el giro (A/D) 
+        // El avance (W/S) y el giro (A/D) son ejes totalmente independientes.
+
         Throttle = Axis(kb.sKey.isPressed || kb.downArrowKey.isPressed,
                         kb.wKey.isPressed || kb.upArrowKey.isPressed);
         Steer = Axis(kb.aKey.isPressed || kb.leftArrowKey.isPressed,
@@ -35,15 +34,22 @@ public class PlayerInput : MonoBehaviour, IStrollerInput
         Jump = kb.spaceKey.isPressed;
         Drift = kb.leftShiftKey.isPressed || kb.rightShiftKey.isPressed;
         Turbo = kb.qKey.isPressed;
+        Respawn = kb.rKey.isPressed;
     }
 
     void OnDisable()
+    {
+        Clear();
+    }
+
+    void Clear()
     {
         Steer = 0f;
         Throttle = 0f;
         Jump = false;
         Drift = false;
         Turbo = false;
+        Respawn = false;
     }
 
     static float Axis(bool negative, bool positive)

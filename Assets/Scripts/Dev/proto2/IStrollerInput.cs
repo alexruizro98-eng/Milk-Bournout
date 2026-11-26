@@ -1,5 +1,5 @@
 
-/// input de una carriola. Lo implementan el jugador (PlayerInput)
+/// input de una carriola. 
 
 public interface IStrollerInput
 {
@@ -17,4 +17,6 @@ public interface IStrollerInput
 
     //true mientras el botón de turbo está apretado.
     bool Turbo { get; }
+    //true 
+    bool Respawn { get; }
 }
