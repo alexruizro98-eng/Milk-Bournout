@@ -12,11 +12,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611e438ed5241b6428a0def999c30e8a, type: 3}
   m_Name: StrollerStats
   m_EditorClassIdentifier: Assembly-CSharp::StrollerStats
-  maxForwardSpeed: 18
-  maxReverseSpeed: 6
+  maxForwardSpeed: 40
+  maxReverseSpeed: 20
   acceleration: 14
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.25
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   brakeDeceleration: 28
   coastDeceleration: 6
   turnSpeed: 110
   fullTurnSpeed: 6
   lateralGrip: 10
+  minDriftSpeed: 8
+  driftGrip: 1.5
+  driftMinSteer: 0.5
+  driftMaxSteer: 1.3
+  jumpVelocity: 9
+  gravityMultiplier: 2
+  turboMultiplier: 1.5
+  turboAccessDuration: 10
+  turboDuration: 1
+  turboCooldown: 3
+  turboAcceleration: 40
